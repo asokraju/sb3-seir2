@@ -9,7 +9,7 @@ from stable_baselines3 import PPO
 import pandas as pd
 
 #local modules
-from utils.utils import train_model, random_states, predict_actions, scatter_plot, CM
+from utils.utils import train_model, random_states, predict_actions, scatter_plot, CM, create_dir
 
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
@@ -19,19 +19,21 @@ if __name__ == '__main__':
 
     start_time = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
     directory = "results/" + start_time + '/'
-    try:
-        os.mkdir("results/")
-    except:
-        pass
-    try:
-        os.mkdir(directory)
-    except:
-        pass
+    create_dir("results/")
+    create_dir(directory)
+    # try:
+    #     os.mkdir("results/")
+    # except:
+    #     pass
+    # try:
+    #     os.mkdir(directory)
+    # except:
+    #     pass
     args = {
         'n_timesteps' : int(1e5), # No of RL training steps
         'check_freq' : 1000, # frequency of upating the model
         'env_id' : 'gym_seir:seir-v0', # gym environment id
-        'N' : 10000, # number of samples to plot
+        'N' : 5000, # number of samples to plot
         'theta':{0: 113.92, 1: 87.15, 2: 107.97},
         'w_all' : [0.0 , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 ],
         'sel_w' : [0.5],
@@ -48,17 +50,19 @@ if __name__ == '__main__':
     states = random_states(args['N'])
     for w in args['sel_w']:
         dir_w = directory + str(w) +"/"
-        try:
-            os.mkdir(dir_w)
-        except:
-            pass
+        create_dir(dir_w)
+        # try:
+        #     os.mkdir(dir_w)
+        # except:
+        #     pass
         Scenario_actions = []
         for i, senario in enumerate(args['Senarios']):
             dir_sen = dir_w + senario + "/"
-            try:
-                os.mkdir(dir_sen)
-            except:
-                pass
+            create_dir(dir_sen)
+            # try:
+            #     os.mkdir(dir_sen)
+            # except:
+            #     pass
             print(dir_sen)
             start_time = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
             

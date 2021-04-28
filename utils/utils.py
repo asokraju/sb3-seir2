@@ -130,11 +130,12 @@ def scatter_plot(df:DataFrame, save_fig:bool=False, fig_name:str=None):
     hue_order = ['0:LockDown','1:Social Distancing', '2:Open']
     pal = {'0:LockDown':"Red", '1:Social Distancing':"Green",'2:Open':'Blue'}
     # g = sns.pairplot(df, kind='scatter', alpha=0.1})
-    g = sns.pairplot(df, hue="policy",  palette=pal, plot_kws = plot_kws, hue_order = hue_order)
+    g = sns.pairplot(df, hue="policy",  palette=pal, plot_kws = plot_kws, hue_order = hue_order) #,height=10, aspect=1.
     # g.set_title(title)
     # g.title(title)
     if save_fig:
         g.savefig(fig_name, bbox_inches='tight')
+        plt.close()
     else:
         return g
 
@@ -155,3 +156,9 @@ def CM(states, baseline_actions, scenario_actions, save_fig:bool=False, fig_name
     return pd.DataFrame(C), DF
 
 
+def create_dir(dir_name:str):
+    try:
+        os.mkdir(dir_name)
+    except:
+        print("Sub directory {} is already available".format(dir_name))
+        pass
