@@ -73,10 +73,10 @@ class SeirEnv(gym.Env):
         self.Ts           = sampling_time
         self.time_steps   = int((self.Ts) / self.dt)
        
-        self.popu         = 1e5 #100000
+        self.popu         = 1e5 # 100000
         self.state_normalization = state_normalization
         self.trainNoise   = False
-        self.weight       = weight #reward weighting
+        self.weight       = weight # reward weighting
         self.inital_state = np.array(inital_state, dtype=float)
         self.validation   = validation
 
@@ -101,7 +101,7 @@ class SeirEnv(gym.Env):
         # Reproduction number =  R0 = beta/gamma = [0.18, 0.98, 3.92]
         # If R0 is less than one the disease will die out, and if R0>1 the disease will increase exponentially
         #Economic costs 
-        self.eco_costs    = np.array([1, 0.2, 0.0], dtype=float) 
+        self.eco_costs    = np.array([1., 0.2, 0.0], dtype=float) 
 
         #gym action space and observation space
         self.action_space = spaces.Discrete(3)
@@ -147,7 +147,7 @@ class SeirEnv(gym.Env):
             self.state = self.inital_state
         self.state_trajectory.append(list(self.state))
 
-    def normalize_state(self,state):
+    def normalize_state(self, state):
         if self.state_normalization:
             S, E, I, R = state[0], state[1], state[2], state[3]
             S, E, I, R = S/self.popu, E/self.popu, I/self.popu, R/self.popu
@@ -200,7 +200,7 @@ class SeirEnv(gym.Env):
             self.count += 1
         # Costs
         # action represent the crowd density, so decrease in crowd density increases the economic cost
-        economicCost = self.eco_costs[action] * self.Ts * 0.91 # self.Ts * 0.91 ~ 630.
+        economicCost = self.eco_costs[action] * self.Ts * 0.91 # self.Ts * 0.91 ~ 6.30.
 
         # Public health Cost increases with increase in Infected people.
         # publichealthCost   =  (1.45e-5 * (self.state[2]+self.state[3])) * self.Ts

@@ -74,7 +74,13 @@ def train_model(w:float, Senario:int, args:dict, log_dir:str, seed:int=None):
         }
     env = gym.make(env_id,**env_kwargs)
     env = Monitor(env, log_dir)
-    model = PPO('MlpPolicy', env, verbose=0, tensorboard_log=tensorboard_log, seed = seed)
+    model = PPO(
+        'MlpPolicy', 
+        env, 
+        verbose=0, 
+        tensorboard_log=tensorboard_log, 
+        seed = seed,
+        policy_kwargs = args["policy_kwargs"])
     callback = SaveOnBestTrainingRewardCallback(check_freq=check_freq, log_dir=log_dir)
     model.learn(n_timesteps, tb_log_name="test_1", callback=callback)
     print("Finished training")
