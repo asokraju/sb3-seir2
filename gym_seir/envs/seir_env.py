@@ -219,6 +219,7 @@ class SeirEnv(gym.Env):
         #self.action_trajectory.append(action)
         for _ in range(self.time_steps):
             self.rewards.append(reward)
+        # print("rewards shape,",np.shape(self.rewards))
         if not self.noise:
             return self.normalize_state(self.state), reward, done, {}
         else:
