@@ -74,7 +74,7 @@ if __name__ == '__main__':
             df, actions = predict_actions(states, model, df=True)
             Scenario_actions.append(actions)
             print(len(actions), len(Scenario_actions))
-            scatter_plot(df=df, save_fig=True, fig_name=dir_sen+"scatter.jpg") 
+            scatter_plot(df=df, save_fig=True, fig_name=dir_sen+"scatter.pdf") 
 
         baseline_model_dir = dir_w + args['Senarios'][0] + "/"
 
