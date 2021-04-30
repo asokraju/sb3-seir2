@@ -45,7 +45,7 @@ if __name__ == '__main__':
             0 : [[99666., 81., 138., 115.]],
             1 : [[99666., 81., 138., 115.], [99962.0, 7.0, 14.0, 17.0]],
             2 : [[99666., 81., 138., 115.], [99905.0, 22.0, 39.0, 34.0]],
-        }
+        },
         'seed': 2424, #random number generator seed
         'policy_kwargs': dict(activation_fn=th.nn.ReLU,
                      net_arch=[128, dict(pi=[512, 512], vf=[512, 512])])  #NN parameters
