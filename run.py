@@ -9,7 +9,7 @@ from stable_baselines3 import PPO
 import pandas as pd
 import json
 #local modules
-from utils.utils import train_model, random_states, predict_actions, scatter_plot, CM, create_dir
+from utils.utils import train_model, random_states, predict_actions, scatter_plot, CM, create_dir, plot_trajectories
 import torch as th
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
@@ -21,14 +21,7 @@ if __name__ == '__main__':
     directory = "results/" + start_time + '/'
     create_dir("results/")
     create_dir(directory)
-    # try:
-    #     os.mkdir("results/")
-    # except:
-    #     pass
-    # try:
-    #     os.mkdir(directory)
-    # except:
-    #     pass
+
     args = {
         'n_timesteps' : int(2000), # No of RL training steps
         'check_freq' : 1000, # frequency of upating the model
@@ -38,7 +31,7 @@ if __name__ == '__main__':
         'w_all' : [0.0 , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 ],
         'sel_w' : [0.35],
         'Senarios' : [ 'BaseLine', 'Senario_1', 'Senario_2'],
-        'Selected_Senarios': ['BaseLine','Senario_1',],
+        'Selected_Senarios': ['BaseLine','Senario_1'],
         'a_map' : {0:'LockDown', 1:'Social Distancing', 2:'Open'},
         'initial_state':{
             0:[99666., 81., 138., 115.], 
@@ -46,27 +39,24 @@ if __name__ == '__main__':
             2:[99905.0, 22.0, 39.0, 34.0]
             },
         'seed': 2424,
-        'policy_kwargs': dict(activation_fn=th.nn.ReLU,
-                     net_arch=[128, dict(pi=[512, 512], vf=[512, 512])])
+        'policy_kwargs': dict(activation_fn=th.nn.ReLU, net_arch=[128, dict(pi=[512, 512], vf=[512, 512])]),
+        # plots the trajectories for specified scenario and initial states
+        'plot_inital_states' : {
+            0 : [[99666., 81., 138., 115.]],
+            1 : [[99666., 81., 138., 115.], [99962.0, 7.0, 14.0, 17.0]],
+            2 : [[99666., 81., 138., 115.], [99905.0, 22.0, 39.0, 34.0]],
+        }
     }
     np.random.seed(args['seed'])
     states = random_states(args['N'])
     for w in args['sel_w']:
         dir_w = directory + str(w) +"/"
         create_dir(dir_w)
-        # try:
-        #     os.mkdir(dir_w)
-        # except:
-        #     pass
         Scenario_actions = []
         for i, senario in enumerate(args['Selected_Senarios']):
             print("Running {}".format(senario))
             dir_sen = dir_w + senario + "/"
             create_dir(dir_sen)
-            # try:
-            #     os.mkdir(dir_sen)
-            # except:
-            #     pass
             print(dir_sen)
             start_time = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
             
@@ -75,12 +65,16 @@ if __name__ == '__main__':
             print("plotting")
             df, actions = predict_actions(states, model, df=True)
             Scenario_actions.append(actions)
-            print(len(actions), len(Scenario_actions))
-            scatter_plot(df=df, save_fig=True, fig_name=dir_sen+"scatter.jpg") 
+            scatter_plot(df=df, save_fig=True, fig_name=dir_sen+"scatter.jpg")
+            if len(args['plot_inital_states'][i])==0:
+                plot_trajectories(model, w=w, Senario=i, args=args, log_dir=dir_sen, inital_state=None)
+            else:
+                for init_state in args['plot_inital_states'][i]:
+                    plot_trajectories(model, w=w, Senario=i, args=args, log_dir=dir_sen, inital_state=init_state)
 
         
         df = pd.DataFrame(states, columns=['Susceptible', 'Exposed', 'Infected', 'Recovered'])
-        if 'BaseLine' in args['']:
+        if 'BaseLine' in args['Selected_Senarios']:
             df['Baseline'] = Scenario_actions[0]
 
         if 'Senario_1' in args['Selected_Senarios']:
