@@ -25,11 +25,11 @@ if __name__ == '__main__':
     args = {
         'n_timesteps' : int(1e5), # No of RL training steps
         'check_freq' : 1000, # frequency of upating the model
-        'env_id' : 'gym_seir:seir-v0', # gym environment id
+        'env_id' : 'gym_seir:seir-cd-v0', # gym environment id
         'N' : 5000, # number of samples to plot
         'theta':{0: 113.92, 1: 87.15, 2: 107.97},
         'w_all' : [0.0 , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 ],
-        'sel_w' : [0.35, 0.375, 0.40, 0.425, 0.45],
+        'sel_w' : [0.35, 0.4, 0.45, 0.5, 0.55],
         'Senarios' : [ 'BaseLine', 'Senario_1', 'Senario_2'],
         'Selected_Senarios': ['BaseLine','Senario_1'],
         'a_map' : {0:'LockDown', 1:'Social Distancing', 2:'Open'},
