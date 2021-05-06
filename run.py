@@ -23,7 +23,7 @@ if __name__ == '__main__':
     create_dir(directory)
 
     args = {
-        'n_timesteps' : int(0.5e5), # No of RL training steps
+        'n_timesteps' : int(1e3), # No of RL training steps
         'check_freq' : 1000, # frequency of upating the model
         'env_id' : 'gym_seir:seir-cd-v0', # gym environment id
         'N' : 5000, # number of samples to plot
