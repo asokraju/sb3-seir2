@@ -68,7 +68,7 @@ class SeirEnvCD(gym.Env):
         validation = False,
         noise = False,
         noise_percent = 0,
-        health_cost_scale = 1000.
+        health_cost_scale:float = 1000.
         ):
         super(SeirEnvCD, self).__init__()
 
