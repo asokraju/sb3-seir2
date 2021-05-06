@@ -66,7 +66,8 @@ class SeirEnv(gym.Env):
         state_normalization = True,
         validation = False,
         noise = False,
-        noise_percent = 0):
+        noise_percent = 0,
+        health_cost_scale:float = 630.):
         super(SeirEnv, self).__init__()
 
         self.dt           = discretizing_time/(24*60)
@@ -102,7 +103,7 @@ class SeirEnv(gym.Env):
         # If R0 is less than one the disease will die out, and if R0>1 the disease will increase exponentially
         #Economic costs 
         self.eco_costs    = np.array([1., 0.2, 0.0], dtype=float) 
-
+        
         #gym action space and observation space
         self.action_space = spaces.Discrete(3)
         self.observation_space = spaces.Box(0, np.inf, shape=(4,), dtype=np.float64)
@@ -117,6 +118,7 @@ class SeirEnv(gym.Env):
 
         #seeding
         self.seed()
+        self.health_cost_scale = health_cost_scale
 
         #memory to save the trajectories
         self.state_trajectory  = []
@@ -205,7 +207,7 @@ class SeirEnv(gym.Env):
         # Public health Cost increases with increase in Infected people.
         # publichealthCost   =  (1.45e-5 * (self.state[2]+self.state[3])) * self.Ts
         Delta_S  =  self.state_trajectory[-1-self.time_steps][0] - self.state_trajectory[-1][0]
-        publichealthCost = Delta_S/620.0
+        publichealthCost = Delta_S/self.health_cost_scale
         
         # Rewards
         reward = - self.weight * economicCost - (1. - self.weight) * publichealthCost

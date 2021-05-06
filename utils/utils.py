@@ -70,7 +70,8 @@ def train_model(w:float, Senario:int, args:dict, log_dir:str, seed:int=None):
     env_kwargs = {
         'validation':False,
         'theta':args['theta'][Senario],
-        'weight' : w
+        'weight' : w,
+        'health_cost_scale' : args['health_cost_scale']
         }
     env = gym.make(env_id,**env_kwargs)
     env = Monitor(env, log_dir)
@@ -175,7 +176,8 @@ def plot_trajectories(model, w:float, Senario:int, args:dict, log_dir:str, inita
         'validation':True,
         'theta':args['theta'][Senario],
         'weight' : w,
-        'inital_state':inital_state
+        'inital_state':inital_state,
+        'health_cost_scale': args['health_cost_scale']
         }
     env = gym.make(env_id,**env_kwargs)
     env = Monitor(env, log_dir)
@@ -196,7 +198,7 @@ def plot_trajectories(model, w:float, Senario:int, args:dict, log_dir:str, inita
     df['actions'] = Actions
     df['rewards'] = Rewards
 
-    main_title = "weight = " + str(w) + ", " + "Scenario - " + str(Senario) + " - "
+    main_title = "weight = " + str(w) + ", " + "Scenario - " + str(Senario) + " - " + str(inital_state)
     ax = df[['Susceptible', 'Exposed', 'Infected', 'Recovered']].plot.line(subplots=True, figsize = (20,20), title = main_title + 'state')
     for axes in ax:
         axes.set_ylim([0, 1e5])
