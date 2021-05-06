@@ -168,3 +168,48 @@ def create_dir(dir_name:str):
     except:
         print("Sub directory {} is already available".format(dir_name))
         pass
+
+def plot_trajectories(model, w:float, Senario:int, args:dict, log_dir:str, inital_state):
+    env_id = args['env_id']
+    env_kwargs = {
+        'validation':True,
+        'theta':args['theta'][Senario],
+        'weight' : w,
+        'inital_state':inital_state
+        }
+    env = gym.make(env_id,**env_kwargs)
+    env = Monitor(env, log_dir)
+    actions, rewards = [], []
+    done = False
+    s = env.reset()
+    while not done:
+        a = model.predict(s, deterministic=True)[0] 
+        s, r, done, _ = env.step(a)
+        # states.append(env.state)
+        rewards.append(r)
+        actions.append(a)
+
+    Rewards = [i for i in rewards for _ in range(env.time_steps)]
+    Actions = [i for i in actions for _ in range(env.time_steps)]
+    index = pd.date_range("2020-05-15 00:00:00", "2020-11-05 23:55:00", freq="5min")
+    df = pd.DataFrame(np.array(env.state_trajectory)[:-1], columns=['Susceptible', 'Exposed', 'Infected', 'Recovered'], index=index)
+    df['actions'] = Actions
+    df['rewards'] = Rewards
+
+    main_title = "weight = " + str(w) + ", " + "Scenario - " + str(Senario) + " - "
+    ax = df[['Susceptible', 'Exposed', 'Infected', 'Recovered']].plot.line(subplots=True, figsize = (20,20), title = main_title + 'state')
+    for axes in ax:
+        axes.set_ylim([0, 1e5])
+    plt.savefig(log_dir+main_title+"states.jpg")
+    plt.close()
+    
+    ax = df['actions'].plot.line( figsize = (20,5), title = main_title + 'actions')
+    ax.set_ylim([-0.1,2.2])
+    plt.savefig(log_dir+main_title+"actions.jpg")
+    plt.close()
+
+    ax = df['rewards'].plot.line( figsize = (20,5), title = main_title + 'rewards')
+    plt.savefig(log_dir+main_title+"rewards.jpg")
+    plt.close()
+    df.to_csv(log_dir+'sar.csv')
+    return df
