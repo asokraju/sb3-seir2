@@ -67,7 +67,9 @@ class SeirEnvCD(gym.Env):
         state_normalization = True,
         validation = False,
         noise = False,
-        noise_percent = 0):
+        noise_percent = 0,
+        health_cost_scale = 1000.
+        ):
         super(SeirEnvCD, self).__init__()
 
         self.dt           = discretizing_time/(24*60)
@@ -117,7 +119,7 @@ class SeirEnvCD(gym.Env):
         # noise
         self.noise         = noise
         self.noise_percent = noise_percent
-
+        self.health_cost_scale = health_cost_scale
         #seeding
         self.seed()
 
@@ -212,12 +214,12 @@ class SeirEnvCD(gym.Env):
 
         # Costs
         # action represent the crowd density, so decrease in crowd density increases the economic cost
-        economicCost = self.eco_costs[action] * self.Ts * 0.91 # self.Ts * 0.91 ~ 6.30.
+        economicCost = self.eco_costs[action] * self.Ts * 1.# 0.91 # self.Ts * 0.91 ~ 6.30.
 
         # Public health Cost increases with increase in Infected people.
         # publichealthCost   =  (1.45e-5 * (self.state[2]+self.state[3])) * self.Ts
         Delta_S  =  self.state_trajectory[-1-self.time_steps][0] - self.state_trajectory[-1][0]
-        publichealthCost = Delta_S/620.0
+        publichealthCost = Delta_S/self.health_cost_scale #150.#300.#620.0
         
         # Rewards
         reward = - self.weight * economicCost - (1. - self.weight) * publichealthCost
@@ -265,3 +267,7 @@ class SeirEnvCD(gym.Env):
 
     def close(self):
         pass
+
+
+
+#add

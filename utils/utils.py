@@ -196,7 +196,7 @@ def plot_trajectories(model, w:float, Senario:int, args:dict, log_dir:str, inita
     df['actions'] = Actions
     df['rewards'] = Rewards
 
-    main_title = "weight = " + str(w) + ", " + "Scenario - " + str(Senario) + " - "
+    main_title = "weight = " + str(w) + ", " + "Scenario - " + str(Senario) + " - " + str(inital_state)
     ax = df[['Susceptible', 'Exposed', 'Infected', 'Recovered']].plot.line(subplots=True, figsize = (20,20), title = main_title + 'state')
     for axes in ax:
         axes.set_ylim([0, 1e5])
