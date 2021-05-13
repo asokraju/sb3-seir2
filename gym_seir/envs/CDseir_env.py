@@ -63,7 +63,7 @@ class SeirEnvCD(gym.Env):
         weight = 0.5, 
         theta = 113.92, 
         inital_state =  [99666., 81., 138., 115.], 
-        rho_per_week = 0.02, 
+        rho_per_week = 0.05, 
         state_normalization = True,
         validation = False,
         noise = False,

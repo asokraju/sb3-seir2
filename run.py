@@ -23,13 +23,13 @@ if __name__ == '__main__':
     create_dir(directory)
 
     args = {
-        'n_timesteps' : int(1e3), # No of RL training steps
+        'n_timesteps' : int(2e4), # No of RL training steps
         'check_freq' : 1000, # frequency of upating the model
         'env_id' : 'gym_seir:seir-cd-v0', # gym environment id
         'N' : 5000, # number of samples to plot
         'theta':{0: 113.92, 1: 87.15, 2: 107.97},
         'w_all' : [0.0 , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 ],
-        'sel_w' : [0.35, 0.4, 0.45, 0.5, 0.55],
+        'sel_w' : [0.5],
         'Senarios' : [ 'BaseLine', 'Senario_1', 'Senario_2'],
         'Selected_Senarios': ['BaseLine'],
         'a_map' : {0:'LockDown', 1:'Social Distancing', 2:'Open'},
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     np.random.seed(args['seed'])
     states = random_states(args['N'])
     for w in args['sel_w']:
-        dir_w = directory + str(w) +"/"
+        dir_w = directory + str(w) + "_0.05" + "/"  ################
         create_dir(dir_w)
         Scenario_actions = []
         for i, senario in enumerate(args['Selected_Senarios']):
@@ -68,7 +68,7 @@ if __name__ == '__main__':
             print("plotting")
             df, actions = predict_actions(states, model, df=True)
             Scenario_actions.append(actions)
-            scatter_plot(df=df, save_fig=True, fig_name=dir_sen+"scatter.jpg")
+            scatter_plot(df=df, save_fig=True, fig_name=dir_sen+"scatter.png")
             if len(args['plot_inital_states'][i])==0:
                 plot_trajectories(model, w=w, Senario=i, args=args, log_dir=dir_sen, inital_state=None)
             else:
@@ -84,13 +84,13 @@ if __name__ == '__main__':
 
         if 'Senario_1' in args['Selected_Senarios']:
             Scenario_1_model_dir = dir_w + args['Senarios'][1] + "/"
-            C, DF1 = CM(states, Scenario_actions[0], Scenario_actions[1], save_fig=True, fig_name=Scenario_1_model_dir+'confusion.jpg')
+            C, DF1 = CM(states, Scenario_actions[0], Scenario_actions[1], save_fig=True, fig_name=Scenario_1_model_dir+'confusion.png')
             C.to_csv(Scenario_1_model_dir+'C.csv')
             df['Scenario-1'] = Scenario_actions[1]
 
         if 'Senario_2' in args['Selected_Senarios']:
             Scenario_2_model_dir = dir_w + args['Senarios'][2] + "/"
-            C, DF2 = CM(states, Scenario_actions[0], Scenario_actions[2], save_fig=True, fig_name=Scenario_2_model_dir+'confusion.jpg')
+            C, DF2 = CM(states, Scenario_actions[0], Scenario_actions[2], save_fig=True, fig_name=Scenario_2_model_dir+'confusion.png')
             C.to_csv(Scenario_2_model_dir+'C.csv')
             df['Scenario-2'] = Scenario_actions[2]
 
