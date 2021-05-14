@@ -72,7 +72,9 @@ def train_model(w:float, Senario:int, args:dict, log_dir:str, seed:int=None):
         'theta':args['theta'][Senario],
         'weight' : w,
         'health_cost_scale' : args['health_cost_scale'],
-        'rho_per_week': args['rho_per_week']
+        'rho_per_week': args['rho_per_week'],
+        'hospital_beds_ratio': args['hospital_beds_ratio'],
+        'max_hospital_cost':args['max_hospital_cost'],
         }
     env = gym.make(env_id,**env_kwargs)
     env = Monitor(env, log_dir)
@@ -179,7 +181,9 @@ def plot_trajectories(model, w:float, Senario:int, args:dict, log_dir:str, inita
         'weight' : w,
         'inital_state':inital_state,
         'health_cost_scale': args['health_cost_scale'],
-        'rho_per_week': args['rho_per_week']
+        'rho_per_week': args['rho_per_week'],
+        'hospital_beds_ratio': args['hospital_beds_ratio'],
+        'max_hospital_cost':args['max_hospital_cost'],
         }
     env = gym.make(env_id,**env_kwargs)
     env = Monitor(env, log_dir)
@@ -201,18 +205,100 @@ def plot_trajectories(model, w:float, Senario:int, args:dict, log_dir:str, inita
     df['rewards'] = Rewards
 
     main_title = "weight = " + str(w) + ", " + "Scenario - " + str(Senario) + " - " + str(inital_state)
-    ax = df[['Susceptible', 'Exposed', 'Infected', 'Recovered']].plot.line(subplots=True, figsize = (20,20), title = main_title + 'state')
+    ax = df[['Susceptible', 'Exposed', 'Infected', 'Recovered']].plot.line(subplots=True, figsize = (10,10), title = main_title + 'state')
     for axes in ax:
         axes.set_ylim([0, 1e5])
     plt.savefig(log_dir+main_title+"states.jpg")
     plt.close()
     
-    ax = df['actions'].plot.line( figsize = (20,5), title = main_title + 'actions')
+    ax = df['actions'].plot.line( figsize = (10,2.5), title = main_title + 'actions')
     ax.set_ylim([-0.1,2.2])
     plt.savefig(log_dir+main_title+"actions.jpg")
     plt.close()
 
-    ax = df['rewards'].plot.line( figsize = (20,5), title = main_title + 'rewards')
+    ax = df['rewards'].plot.line( figsize = (10,2.5), title = main_title + 'rewards')
+    plt.savefig(log_dir+main_title+"rewards.jpg")
+    plt.close()
+    df.to_csv(log_dir+'sar.csv')
+    return df
+
+
+
+
+def argparse_train_model(args:dict):
+    env_id = args['env_id']
+    n_timesteps = args['n_timesteps']
+    check_freq = args['check_freq']
+    tensorboard_log = args['summary_dir'] + "board/"
+    log_dir = args['summary_dir']
+    env_kwargs = {
+        'validation':False,
+        'theta':args['theta'],
+        'weight' : args['weight'],
+        'health_cost_scale' : args['health_cost_scale'],
+        'rho_per_week': args['rho_per_week'],
+        'hospital_beds_ratio': args['hospital_beds_ratio'],
+        'max_hospital_cost':args['max_hospital_cost'],
+        }
+    env = gym.make(env_id,**env_kwargs)
+    env = Monitor(env, log_dir)
+    model = PPO(
+        'MlpPolicy', 
+        env, 
+        verbose=0, 
+        tensorboard_log=tensorboard_log, 
+        seed = args['seed'],
+        policy_kwargs = args["policy_kwargs"])
+    callback = SaveOnBestTrainingRewardCallback(check_freq=check_freq, log_dir=log_dir)
+    model.learn(n_timesteps, tb_log_name="test_1", callback=callback)
+    print("Finished training")
+    return model
+
+def argparse_plot_trajectories(model, args:dict, inital_state):
+    env_id = args['env_id']
+    env_kwargs = {
+        'validation':True,
+        'theta':args['theta'],
+        'weight' : args['weight'],
+        'inital_state':inital_state,
+        'health_cost_scale': args['health_cost_scale'],
+        'rho_per_week': args['rho_per_week'],
+        'hospital_beds_ratio': args['hospital_beds_ratio'],
+        'max_hospital_cost':args['max_hospital_cost'],
+        }
+    log_dir = args['summary_dir']
+    env = gym.make(env_id,**env_kwargs)
+    env = Monitor(env, log_dir)
+    actions, rewards = [], []
+    done = False
+    s = env.reset()
+    while not done:
+        a = model.predict(s, deterministic=True)[0] 
+        s, r, done, _ = env.step(a)
+        # states.append(env.state)
+        rewards.append(r)
+        actions.append(a)
+
+    Rewards = [i for i in rewards for _ in range(env.time_steps)]
+    Actions = [i for i in actions for _ in range(env.time_steps)]
+    index = pd.date_range("2020-05-15 00:00:00", "2020-11-05 23:55:00", freq="5min")
+    df = pd.DataFrame(np.array(env.state_trajectory)[:-1], columns=['Susceptible', 'Exposed', 'Infected', 'Recovered'], index=index)
+    df['actions'] = Actions
+    df['rewards'] = Rewards
+
+    main_title = "weight = " + str(args['weight']) + ", " + "Scenario - " + str(args['Senario']) + " - " + str(inital_state)
+    ax = df[['Susceptible', 'Exposed', 'Infected', 'Recovered']].plot.line(subplots=True, figsize = (10,10), title = main_title + 'state')
+    for axes in ax:
+        axes.set_ylim([0, 1e5])
+    plt.savefig(log_dir+main_title+"states.jpg")
+    plt.close()
+    
+    ax = df['actions'].plot.line( figsize = (10,2.5), title = main_title + 'actions')
+    ax.set_ylim([-0.1,2.2])
+    plt.savefig(log_dir+main_title+"actions.jpg")
+    plt.close()
+
+    ax = df['rewards'].plot.line( figsize = (10,2.5), title = main_title + 'rewards')
     plt.savefig(log_dir+main_title+"rewards.jpg")
     plt.close()
     df.to_csv(log_dir+'sar.csv')
