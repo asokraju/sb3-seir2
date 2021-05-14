@@ -30,6 +30,7 @@ if __name__ == '__main__':
         'theta':{0: 113.92, 1: 87.15, 2: 107.97},
         'w_all' : [0.0 , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 ],
         'sel_w' : [0.5],
+
         'Senarios' : [ 'BaseLine', 'Senario_1', 'Senario_2'],
         'Selected_Senarios': ['BaseLine'],
         'a_map' : {0:'LockDown', 1:'Social Distancing', 2:'Open'},
