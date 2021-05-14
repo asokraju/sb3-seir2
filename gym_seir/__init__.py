@@ -13,3 +13,7 @@ register(
     id='seir-cd-v0',
     entry_point='gym_seir.envs:SeirEnvCD',
 )
+register(
+    id='seir-b-v0',
+    entry_point='gym_seir.envs:SeirEnvBeds',
+)
