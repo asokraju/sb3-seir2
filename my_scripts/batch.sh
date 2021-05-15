@@ -49,6 +49,5 @@ cd $MHC_DIR
 
 
 export run_exec=$PARENT_DIR/argparse_run.py #python script that we want to run
-$env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost
 export run_flags="--env_id=${ENV_ID} --weight=${WEIGHT} --seed=${SEED} --Senario=${SENARIO} --health_cost_scale=${HCS} --rho_per_week=${RPW} --hospital_beds_ratio=${HBR} --max_hospital_cost=${MHC} --summary_dir=$PWD"
 C:/Users/kkris/anaconda3/envs/sbl3/python.exe $run_exec $run_flags
