@@ -1,6 +1,6 @@
 #!/bin/bash -l
 
-for test_name in test_1
+for test_name in test_grace_1
 do
   for env_id in gym_seir:seir-b-v0
   do
@@ -18,7 +18,7 @@ do
               do
                 for seed in 2345
                 do
-                  C:/Users/kkris/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed
+                  C:/Users/k/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed
                 done
               done
             done
