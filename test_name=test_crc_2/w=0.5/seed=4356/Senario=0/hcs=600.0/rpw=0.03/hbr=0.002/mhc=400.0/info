@@ -1,0 +1,251 @@
+
+NOTE:
+The module -- conda/4.5.4 -- has been deprecated and will be removed during our next maintenance in May, 2021.
+A list of supported versions is available via the 'module avail' command. Please email crcsupport@nd.edu with questions or concerns.
+
+NOTE:
+The module -- conda/4.5.4 -- has been deprecated and will be removed during our next maintenance in May, 2021.
+A list of supported versions is available via the 'module avail' command. Please email crcsupport@nd.edu with questions or concerns.
+{'N': 5000,
+ 'Senario': 0,
+ 'check_freq': 1000,
+ 'env_id': 'gym_seir:seir-b-v0',
+ 'health_cost_scale': 600.0,
+ 'hospital_beds_ratio': 0.002,
+ 'max_hospital_cost': 400.0,
+ 'n_timesteps': 100000,
+ 'plot_inital_states': [[99666.0, 81.0, 138.0, 115.0]],
+ 'policy_kwargs': {'activation_fn': <class 'torch.nn.modules.activation.ReLU'>,
+                   'net_arch': [128, {'pi': [512, 512], 'vf': [512, 512]}]},
+ 'rho_per_week': 0.03,
+ 'seed': 4356,
+ 'summary_dir': '/afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0',
+ 'theta': 113.92,
+ 'weight': 0.5}
+Num timesteps: 1000
+Best mean reward: -inf - Last mean reward per episode: -0.97
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 2000
+Best mean reward: -0.97 - Last mean reward per episode: -0.96
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 3000
+Best mean reward: -0.96 - Last mean reward per episode: -0.93
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 4000
+Best mean reward: -0.93 - Last mean reward per episode: -0.93
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 5000
+Best mean reward: -0.93 - Last mean reward per episode: -0.89
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 6000
+Best mean reward: -0.89 - Last mean reward per episode: -0.87
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 7000
+Best mean reward: -0.87 - Last mean reward per episode: -0.89
+Num timesteps: 8000
+Best mean reward: -0.87 - Last mean reward per episode: -0.86
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 9000
+Best mean reward: -0.86 - Last mean reward per episode: -0.82
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 10000
+Best mean reward: -0.82 - Last mean reward per episode: -0.81
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 11000
+Best mean reward: -0.81 - Last mean reward per episode: -0.80
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 12000
+Best mean reward: -0.80 - Last mean reward per episode: -0.80
+Num timesteps: 13000
+Best mean reward: -0.80 - Last mean reward per episode: -0.76
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 14000
+Best mean reward: -0.76 - Last mean reward per episode: -0.77
+Num timesteps: 15000
+Best mean reward: -0.76 - Last mean reward per episode: -0.77
+Num timesteps: 16000
+Best mean reward: -0.76 - Last mean reward per episode: -0.76
+Num timesteps: 17000
+Best mean reward: -0.76 - Last mean reward per episode: -0.75
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 18000
+Best mean reward: -0.75 - Last mean reward per episode: -0.73
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 19000
+Best mean reward: -0.73 - Last mean reward per episode: -0.76
+Num timesteps: 20000
+Best mean reward: -0.73 - Last mean reward per episode: -0.74
+Num timesteps: 21000
+Best mean reward: -0.73 - Last mean reward per episode: -0.75
+Num timesteps: 22000
+Best mean reward: -0.73 - Last mean reward per episode: -0.80
+Num timesteps: 23000
+Best mean reward: -0.73 - Last mean reward per episode: -0.81
+Num timesteps: 24000
+Best mean reward: -0.73 - Last mean reward per episode: -0.80
+Num timesteps: 25000
+Best mean reward: -0.73 - Last mean reward per episode: -0.79
+Num timesteps: 26000
+Best mean reward: -0.73 - Last mean reward per episode: -0.76
+Num timesteps: 27000
+Best mean reward: -0.73 - Last mean reward per episode: -0.75
+Num timesteps: 28000
+Best mean reward: -0.73 - Last mean reward per episode: -0.74
+Num timesteps: 29000
+Best mean reward: -0.73 - Last mean reward per episode: -0.73
+Num timesteps: 30000
+Best mean reward: -0.73 - Last mean reward per episode: -0.76
+Num timesteps: 31000
+Best mean reward: -0.73 - Last mean reward per episode: -0.74
+Num timesteps: 32000
+Best mean reward: -0.73 - Last mean reward per episode: -0.71
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 33000
+Best mean reward: -0.71 - Last mean reward per episode: -0.70
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 34000
+Best mean reward: -0.70 - Last mean reward per episode: -0.71
+Num timesteps: 35000
+Best mean reward: -0.70 - Last mean reward per episode: -0.72
+Num timesteps: 36000
+Best mean reward: -0.70 - Last mean reward per episode: -0.72
+Num timesteps: 37000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 38000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 39000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 40000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 41000
+Best mean reward: -0.70 - Last mean reward per episode: -0.73
+Num timesteps: 42000
+Best mean reward: -0.70 - Last mean reward per episode: -0.72
+Num timesteps: 43000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 44000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 45000
+Best mean reward: -0.70 - Last mean reward per episode: -0.76
+Num timesteps: 46000
+Best mean reward: -0.70 - Last mean reward per episode: -0.75
+Num timesteps: 47000
+Best mean reward: -0.70 - Last mean reward per episode: -0.73
+Num timesteps: 48000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 49000
+Best mean reward: -0.70 - Last mean reward per episode: -0.73
+Num timesteps: 50000
+Best mean reward: -0.70 - Last mean reward per episode: -0.71
+Num timesteps: 51000
+Best mean reward: -0.70 - Last mean reward per episode: -0.70
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 52000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 53000
+Best mean reward: -0.70 - Last mean reward per episode: -0.75
+Num timesteps: 54000
+Best mean reward: -0.70 - Last mean reward per episode: -0.77
+Num timesteps: 55000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 56000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 57000
+Best mean reward: -0.70 - Last mean reward per episode: -0.72
+Num timesteps: 58000
+Best mean reward: -0.70 - Last mean reward per episode: -0.70
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 59000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 60000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 61000
+Best mean reward: -0.70 - Last mean reward per episode: -0.74
+Num timesteps: 62000
+Best mean reward: -0.70 - Last mean reward per episode: -0.72
+Num timesteps: 63000
+Best mean reward: -0.70 - Last mean reward per episode: -0.71
+Num timesteps: 64000
+Best mean reward: -0.70 - Last mean reward per episode: -0.70
+Num timesteps: 65000
+Best mean reward: -0.70 - Last mean reward per episode: -0.71
+Num timesteps: 66000
+Best mean reward: -0.70 - Last mean reward per episode: -0.75
+Num timesteps: 67000
+Best mean reward: -0.70 - Last mean reward per episode: -0.75
+Num timesteps: 68000
+Best mean reward: -0.70 - Last mean reward per episode: -0.75
+Num timesteps: 69000
+Best mean reward: -0.70 - Last mean reward per episode: -0.72
+Num timesteps: 70000
+Best mean reward: -0.70 - Last mean reward per episode: -0.72
+Num timesteps: 71000
+Best mean reward: -0.70 - Last mean reward per episode: -0.70
+Num timesteps: 72000
+Best mean reward: -0.70 - Last mean reward per episode: -0.72
+Num timesteps: 73000
+Best mean reward: -0.70 - Last mean reward per episode: -0.68
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 74000
+Best mean reward: -0.68 - Last mean reward per episode: -0.71
+Num timesteps: 75000
+Best mean reward: -0.68 - Last mean reward per episode: -0.72
+Num timesteps: 76000
+Best mean reward: -0.68 - Last mean reward per episode: -0.73
+Num timesteps: 77000
+Best mean reward: -0.68 - Last mean reward per episode: -0.70
+Num timesteps: 78000
+Best mean reward: -0.68 - Last mean reward per episode: -0.71
+Num timesteps: 79000
+Best mean reward: -0.68 - Last mean reward per episode: -0.68
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 80000
+Best mean reward: -0.68 - Last mean reward per episode: -0.71
+Num timesteps: 81000
+Best mean reward: -0.68 - Last mean reward per episode: -0.73
+Num timesteps: 82000
+Best mean reward: -0.68 - Last mean reward per episode: -0.72
+Num timesteps: 83000
+Best mean reward: -0.68 - Last mean reward per episode: -0.68
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Num timesteps: 84000
+Best mean reward: -0.68 - Last mean reward per episode: -0.72
+Num timesteps: 85000
+Best mean reward: -0.68 - Last mean reward per episode: -0.75
+Num timesteps: 86000
+Best mean reward: -0.68 - Last mean reward per episode: -0.77
+Num timesteps: 87000
+Best mean reward: -0.68 - Last mean reward per episode: -0.79
+Num timesteps: 88000
+Best mean reward: -0.68 - Last mean reward per episode: -0.75
+Num timesteps: 89000
+Best mean reward: -0.68 - Last mean reward per episode: -0.72
+Num timesteps: 90000
+Best mean reward: -0.68 - Last mean reward per episode: -0.71
+Num timesteps: 91000
+Best mean reward: -0.68 - Last mean reward per episode: -0.74
+Num timesteps: 92000
+Best mean reward: -0.68 - Last mean reward per episode: -0.72
+Num timesteps: 93000
+Best mean reward: -0.68 - Last mean reward per episode: -0.73
+Num timesteps: 94000
+Best mean reward: -0.68 - Last mean reward per episode: -0.73
+Num timesteps: 95000
+Best mean reward: -0.68 - Last mean reward per episode: -0.73
+Num timesteps: 96000
+Best mean reward: -0.68 - Last mean reward per episode: -0.73
+Num timesteps: 97000
+Best mean reward: -0.68 - Last mean reward per episode: -0.74
+Num timesteps: 98000
+Best mean reward: -0.68 - Last mean reward per episode: -0.69
+Num timesteps: 99000
+Best mean reward: -0.68 - Last mean reward per episode: -0.68
+Num timesteps: 100000
+Best mean reward: -0.68 - Last mean reward per episode: -0.68
+Saving new best model to /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/test_name=test_crc_2/w=0.5/seed=4356/w=0/hcs=600.0/rpw=0.03/hbr=0.002/mhc=400.0/best_model
+Finished training
+plotting
+
+NOTE:
+The module -- conda/4.5.4 -- has been deprecated and will be removed during our next maintenance in May, 2021.
+A list of supported versions is available via the 'module avail' command. Please email crcsupport@nd.edu with questions or concerns.
