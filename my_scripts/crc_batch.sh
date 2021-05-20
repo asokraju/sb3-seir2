@@ -54,7 +54,7 @@ export run_flags="--env_id=${ENV_ID} --weight=${WEIGHT} --seed=${SEED} --Senario
 echo "#!/bin/bash" > job.sh                         
 echo "#$ -M kkosaraj@nd.edu" >> job.sh  # Email address for job notification
 echo "#$ -m abe"   >> job.sh         # Send mail when job begins, ends and aborts
-echo "#$ -q debug" >> job.sh                           # which queue to use: debug, long, gpu
+echo "#$ -q long" >> job.sh                           # which queue to use: debug, long, gpu
 # echo "#$ -l gpu_card=1" >>job.sh                       # need if we use gpu queue
 echo "#$ -pe smp 1" >> job.sh
 echo "#$ -N name=${WEIGHT}-${SEED}-${SENARIO}-${HCS}-${RPW}-${HBR}-${MHC}" >> job.sh   # name for job
