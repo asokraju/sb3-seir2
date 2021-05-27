@@ -224,7 +224,7 @@ class SeirEnvBeds(gym.Env):
         # Public health Cost increases with increase in Infected people.
         # publichealthCost   =  (1.45e-5 * (self.state[2]+self.state[3])) * self.Ts
         Delta_S  =  self.state_trajectory[-1-self.time_steps][0] - self.state_trajectory[-1][0]
-        Bed_cost = 0. if self.state[2] < self.avail_hospital_beds else 10.
+        Bed_cost = 0. if self.state[2] < self.avail_hospital_beds else self.max_hospital_cost
         publichealthCost = Delta_S/self.health_cost_scale + Bed_cost #150.#300.#620.0
         # print("economicCost: {}. publichealthCost: {}, Bed_cost: {}".format(economicCost, publichealthCost, Bed_cost))
         # else:
