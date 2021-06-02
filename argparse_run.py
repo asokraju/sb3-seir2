@@ -67,10 +67,10 @@ if __name__ == '__main__':
     args['summary_dir'] = args['summary_dir'] + '/'
     # create_dir(args['summary_dir'])
 
-    states = random_states(args['N'])
-    model = argparse_train_model(args)
+    states = random_states(args['N'])                 #########################
+    model = argparse_train_model(args)                #########################
     print("plotting")
-    df, actions = predict_actions(states, model, df=True)
+    df, actions = predict_actions(states, model, df=True)     ########################
     # scatter_plot(df=df, save_fig=True, fig_name=args['summary_dir']+"scatter.jpg")
     # scatter_plot(df=df, save_fig=True, fig_name=args['summary_dir']+"scatter.pdf")
     if len(args['plot_inital_states'])==0:

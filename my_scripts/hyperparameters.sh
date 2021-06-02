@@ -10,9 +10,9 @@ do
       do
         for health_cost_scale in 581.0
         do
-          for rho_per_week in 0.00 0.01 0.02 0.04 0.06 0.08 0.1
+          for rho_per_week in 0.01 0.02 0.04
           do
-            for hospital_beds_ratio in 0.00287 1.0
+            for hospital_beds_ratio in 0.00287
             do
               for max_hospital_cost in 100.0
               do
