@@ -1,20 +1,20 @@
 #!/bin/bash -l
 
-for test_name in test_1
+for test_name in test_05_28
 do
   for env_id in gym_seir:seir-b-v0
   do
     for weight in 0.5
     do
-      for Senario in 0
+      for Senario in 0 1 2
       do
         for health_cost_scale in 600.0
         do
-          for rho_per_week in 0.02 0.01 0.03
+          for rho_per_week in 0.02
           do
-            for hospital_beds_ratio in 0.005 0.001 0.01
+            for hospital_beds_ratio in 0.005
             do
-              for max_hospital_cost in 100.0 200.0
+              for max_hospital_cost in 10.0
               do
                 for seed in 2345
                 do
