@@ -16,7 +16,7 @@ do
             do
               for max_hospital_cost in 10 
               do
-                for seed in  600 700 800 900 1000
+                for seed in  900 1000
                 do
                   C:/Users/k/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed
                 done
