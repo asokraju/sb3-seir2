@@ -1,6 +1,6 @@
 #!/bin/bash -l
 
-for test_name in test_grace_6
+for test_name in test_grace_8
 do
   for env_id in gym_seir:seir-b-v0
   do
@@ -16,7 +16,7 @@ do
             do
               for max_hospital_cost in 10 
               do
-                for seed in  2532 1079 2774 919
+                for seed in  2663 769 2962 1593 1960 591 1054
                 do
                   C:/Users/k/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed
                 done
