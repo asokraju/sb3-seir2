@@ -1,0 +1,2 @@
+https://stackoverflow.com/questions/5230798/r-character-in-shell-script
+https://stackoverflow.com/questions/17658079/read-string-from-file-and-convert-into-an-int(bash script read file convert to number)
