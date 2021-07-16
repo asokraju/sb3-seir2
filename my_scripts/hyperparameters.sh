@@ -6,7 +6,7 @@ do
   do
     for weight in 0.5
     do
-      for Senario in 0
+      for Senario in 1
       do
         for health_cost_scale in 581.0
         do
@@ -16,7 +16,7 @@ do
             do
               for max_hospital_cost in 10.0
               do
-                for seed in 650 1079 2616 2749 711 2019 951
+                for seed in 96 2078 1679 2177 650 1079 2616 2749 711 2019 951
                 do
                   C:/Users/guanxy/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed
                 done
