@@ -1,6 +1,5 @@
 #!/bin/bash -l
-
-for test_name in test_05_28
+for test_name in test_aws
 do
   for env_id in gym_seir:seir-b-v0
   do
@@ -8,17 +7,23 @@ do
     do
       for Senario in 0 1 2
       do
-        for health_cost_scale in 600.0
+        for health_cost_scale in 581.0
         do
-          for rho_per_week in 0.02
+          for rho_per_week in 0.0
           do
-            for hospital_beds_ratio in 0.005
+            for hospital_beds_ratio in 0.00287
             do
               for max_hospital_cost in 10.0
               do
-                for seed in 2345
+                for seed in 2345 2355
                 do
-                  C:/Users/kkris/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed
+                  for learning_rate in 0.0003 0.0002 0.0001
+                  do
+                    for clip_range in 0.1 0.15 0.2
+                    do
+                      C:/Users/kkris/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed $learning_rate $clip_range
+                    done
+                  done
                 done
               done
             done
@@ -28,3 +33,35 @@ do
     done
   done
 done
+
+
+# #!/bin/bash -l
+
+# for test_name in test_05_28
+# do
+#   for env_id in gym_seir:seir-b-v0
+#   do
+#     for weight in 0.5
+#     do
+#       for Senario in 0 1 2
+#       do
+#         for health_cost_scale in 600.0
+#         do
+#           for rho_per_week in 0.02
+#           do
+#             for hospital_beds_ratio in 0.005
+#             do
+#               for max_hospital_cost in 10.0
+#               do
+#                 for seed in 2345
+#                 do
+#                   C:/Users/kkris/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed
+#                 done
+#               done
+#             done
+#           done
+#         done
+#       done
+#     done
+#   done
+# done

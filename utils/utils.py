@@ -238,7 +238,7 @@ def argparse_train_model(args:dict):
         'health_cost_scale' : args['health_cost_scale'],
         'rho_per_week': args['rho_per_week'],
         'hospital_beds_ratio': args['hospital_beds_ratio'],
-        'max_hospital_cost':args['max_hospital_cost'],
+        'max_hospital_cost':args['max_hospital_cost']
         }
     env = gym.make(env_id,**env_kwargs)
     env = Monitor(env, log_dir)
@@ -248,7 +248,10 @@ def argparse_train_model(args:dict):
         verbose=0, 
         tensorboard_log=tensorboard_log, 
         seed = args['seed'],
-        policy_kwargs = args["policy_kwargs"])
+        policy_kwargs = args["policy_kwargs"],
+        learning_rate=args['learning_rate'],
+        clip_range=args['clip_range']
+        )
     callback = SaveOnBestTrainingRewardCallback(check_freq=check_freq, log_dir=log_dir)
     model.learn(n_timesteps, tb_log_name="test_1", callback=callback)
     print("Finished training")

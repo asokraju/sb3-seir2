@@ -40,9 +40,11 @@ if __name__ == '__main__':
     parser.add_argument('--seed', help='seed for random number generator', type=int, default=2222)
 
     # RL agent hyperparameters
-    parser.add_argument('--n_timesteps', help='Total number of training steps for training', type = int, default=int(1e5))
+    parser.add_argument('--n_timesteps', help='Total number of training steps for training', type = int, default=int(1e1))
     parser.add_argument('--check_freq', help='frequency of upating the model ', type = int, default=1000)
     parser.add_argument('--policy_kwargs', help='policy kwargs for the agent NN model', type=json.loads, default=dict(activation_fn=th.nn.ReLU, net_arch=[128, dict(pi=[512, 512], vf=[512, 512])]))
+    parser.add_argument('--learning_rate', help='policy kwargs for the agent NN model', type=float, default=0.0003)
+    parser.add_argument('--clip_range', help='policy kwargs for the agent NN model', type=float, default=0.2)
 
     # SEIR model hyperparameters
     parser.add_argument('--env_id', help='gym environment id ', default='gym_seir:seir-b-v0')
@@ -60,7 +62,6 @@ if __name__ == '__main__':
 
     args = vars(parser.parse_args())
     args['theta'] = Theta[args["Senario"]] if args['theta'] == None else None
-
     pp.pprint(args)
 
     np.random.seed(args['seed'])
