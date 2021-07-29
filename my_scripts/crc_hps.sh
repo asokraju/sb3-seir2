@@ -18,7 +18,13 @@ do
               do
                 for seed in 2345
                 do
-                  /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/scripts/crc_batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed
+                  for learning_rate in 0.0003 0.0002 0.0001
+                  do
+                    for clip_range in 0.1 0.15 0.2
+                    do
+                      /afs/crc.nd.edu/user/k/kkosaraj/sb3-seir2/scripts/crc_batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed $learning_rate $clip_range
+                    done
+                  done
                 done
               done
             done
