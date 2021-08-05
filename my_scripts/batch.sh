@@ -27,7 +27,7 @@ HBR_DIR="hbr=${HBR}"
 MHC_DIR="mhc=${MHC}"
 LR_DIR="lr=${LR}"
 CLIP_DIR="clip=${CLIP}"
-RL_ALGO_DIR="rl_algo=${POLICY}"
+RL_ALGO_DIR="rl_algo=${RL_ALGO}"
 
 mkdir -p $TEST_NAME_DIR                  #making a directory with test name
 RESULTS_DIR=${EXEC_DIR}/${TEST_NAME_DIR} # Directory for results
@@ -62,6 +62,7 @@ cd $CLIP_DIR
 
 mkdir -p $RL_ALGO_DIR                     
 cd $RL_ALGO_DIR
+
 export run_exec=$PARENT_DIR/argparse_run.py #python script that we want to run
-export run_flags="--env_id=${ENV_ID} --weight=${WEIGHT} --seed=${SEED} --Senario=${SENARIO} --health_cost_scale=${HCS} --rho_per_week=${RPW} --hospital_beds_ratio=${HBR} --max_hospital_cost=${MHC} --summary_dir=$PWD --learning_rate=${LR} --clip_range=${CLIP} --policy=${RL_ALGO}"
+export run_flags="--env_id=${ENV_ID} --weight=${WEIGHT} --seed=${SEED} --Senario=${SENARIO} --health_cost_scale=${HCS} --rho_per_week=${RPW} --hospital_beds_ratio=${HBR} --max_hospital_cost=${MHC} --summary_dir=$PWD --learning_rate=${LR} --clip_range=${CLIP} --rl_algo=${RL_ALGO}"
 C:/Users/kkris/anaconda3/envs/test-aws2/python.exe $run_exec $run_flags

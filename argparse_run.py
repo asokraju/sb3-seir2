@@ -43,7 +43,7 @@ if __name__ == '__main__':
     parser.add_argument('--n_timesteps', help='Total number of training steps for training', type = int, default=int(1e1))
     parser.add_argument('--check_freq', help='frequency of upating the model ', type = int, default=1000)
     parser.add_argument('--policy_kwargs', help='policy kwargs for the agent NN model', type=json.loads, default=dict(activation_fn=th.nn.ReLU, net_arch=[128, dict(pi=[512, 512], vf=[512, 512])]))
-    parser.add_argument('--policy', help='0:PPO, 1:A2C, 2:DQN', choices=[0,1,2], type=int, default=0)
+    parser.add_argument('--rl_algo', help='0:PPO, 1:A2C, 2:DQN', choices=[0,1,2], type=int, default=0)
     parser.add_argument('--learning_rate', help='Control the Learning rate', type=float, default=0.0003)
     parser.add_argument('--clip_range', help='Controls the clip parameter of PPO algorithm', type=float, default=0.2)
 
