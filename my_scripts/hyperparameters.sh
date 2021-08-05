@@ -21,9 +21,9 @@ do
                   do
                     for clip_range in 0.1
                     do
-                      for policy in 2 1 0
+                      for rl_algo in 2 1 0
                       do
-                        C:/Users/kkris/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed $learning_rate $clip_range $policy
+                        C:/Users/kkris/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed $learning_rate $clip_range $rl_algo
                       done
                     done
                   done
