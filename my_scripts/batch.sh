@@ -27,7 +27,7 @@ HBR_DIR="hbr=${HBR}"
 MHC_DIR="mhc=${MHC}"
 LR_DIR="lr=${LR}"
 CLIP_DIR="clip=${CLIP}"
-RL_ALGO_DIR="policy=${POLICY}"
+RL_ALGO_DIR="rl_algo=${POLICY}"
 
 mkdir -p $TEST_NAME_DIR                  #making a directory with test name
 RESULTS_DIR=${EXEC_DIR}/${TEST_NAME_DIR} # Directory for results
