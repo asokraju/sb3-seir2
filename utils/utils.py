@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.results_plotter import load_results, ts2xy, plot_results
 from stable_baselines3.common.monitor import Monitor
-from stable_baselines3 import PPO
+from stable_baselines3 import PPO, A2C, DQN
 from sklearn.metrics import confusion_matrix
 
 
@@ -306,3 +306,59 @@ def argparse_plot_trajectories(model, args:dict, inital_state):
     plt.close()
     df.to_csv(log_dir+'sar.csv')
     return df
+
+
+
+def argparse_train_model2(args:dict):
+    env_id = args['env_id']
+    n_timesteps = args['n_timesteps']
+    check_freq = args['check_freq']
+    tensorboard_log = args['summary_dir'] + "board/"
+    log_dir = args['summary_dir']
+    env_kwargs = {
+        'validation':False,
+        'theta':args['theta'],
+        'weight' : args['weight'],
+        'health_cost_scale' : args['health_cost_scale'],
+        'rho_per_week': args['rho_per_week'],
+        'hospital_beds_ratio': args['hospital_beds_ratio'],
+        'max_hospital_cost':args['max_hospital_cost']
+        }
+    env = gym.make(env_id,**env_kwargs)
+    env = Monitor(env, log_dir)
+    if args['policy'] == 0:
+        model = PPO(
+            'MlpPolicy', 
+            env, 
+            verbose=0, 
+            tensorboard_log=tensorboard_log, 
+            seed = args['seed'],
+            policy_kwargs = args["policy_kwargs"],
+            learning_rate=args['learning_rate'],
+            clip_range=args['clip_range']
+            )
+    elif args['policy'] == 1:
+        model = A2C(
+            'MlpPolicy', 
+            env, 
+            verbose=0, 
+            tensorboard_log=tensorboard_log, 
+            seed = args['seed'],
+            policy_kwargs = args["policy_kwargs"],
+            # learning_rate=args['learning_rate'],
+            )
+    elif args['policy'] == 2:
+        model = DQN(
+            'MlpPolicy', 
+            env, 
+            verbose=0, 
+            tensorboard_log=tensorboard_log, 
+            seed = args['seed'],
+            policy_kwargs = args["policy_kwargs"],
+            # learning_rate=args['learning_rate'],
+            )
+ 
+    callback = SaveOnBestTrainingRewardCallback(check_freq=check_freq, log_dir=log_dir)
+    model.learn(n_timesteps, tb_log_name="test_1", callback=callback)
+    print("Finished training")
+    return model

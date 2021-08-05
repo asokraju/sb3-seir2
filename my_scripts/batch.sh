@@ -11,6 +11,8 @@ MHC=$8
 SEED=$9
 LR=${10}
 CLIP=${11}
+POLICY=${12}
+
 #Creating necessary folders to save the results of the experiment
 PARENT_DIR=$PWD  #"$(dirname $PWD)"             # file is inside this  directory
 EXEC_DIR=$PWD                            # batch script is inside this dir
@@ -25,6 +27,7 @@ HBR_DIR="hbr=${HBR}"
 MHC_DIR="mhc=${MHC}"
 LR_DIR="lr=${LR}"
 CLIP_DIR="clip=${CLIP}"
+POLICY_DIR="policy=${POLICY}"
 
 mkdir -p $TEST_NAME_DIR                  #making a directory with test name
 RESULTS_DIR=${EXEC_DIR}/${TEST_NAME_DIR} # Directory for results
@@ -57,6 +60,8 @@ cd $LR_DIR
 mkdir -p $CLIP_DIR                     
 cd $CLIP_DIR
 
+mkdir -p $POLICY_DIR                     
+cd $POLICY_DIR
 export run_exec=$PARENT_DIR/argparse_run.py #python script that we want to run
-export run_flags="--env_id=${ENV_ID} --weight=${WEIGHT} --seed=${SEED} --Senario=${SENARIO} --health_cost_scale=${HCS} --rho_per_week=${RPW} --hospital_beds_ratio=${HBR} --max_hospital_cost=${MHC} --summary_dir=$PWD --learning_rate=${LR} --clip_range=${CLIP}"
+export run_flags="--env_id=${ENV_ID} --weight=${WEIGHT} --seed=${SEED} --Senario=${SENARIO} --health_cost_scale=${HCS} --rho_per_week=${RPW} --hospital_beds_ratio=${HBR} --max_hospital_cost=${MHC} --summary_dir=$PWD --learning_rate=${LR} --clip_range=${CLIP} --policy=${POLICY}"
 C:/Users/kkris/anaconda3/envs/test-aws2/python.exe $run_exec $run_flags

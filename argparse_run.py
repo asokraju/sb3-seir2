@@ -43,8 +43,10 @@ if __name__ == '__main__':
     parser.add_argument('--n_timesteps', help='Total number of training steps for training', type = int, default=int(1e1))
     parser.add_argument('--check_freq', help='frequency of upating the model ', type = int, default=1000)
     parser.add_argument('--policy_kwargs', help='policy kwargs for the agent NN model', type=json.loads, default=dict(activation_fn=th.nn.ReLU, net_arch=[128, dict(pi=[512, 512], vf=[512, 512])]))
+    parser.add_argument('--policy', help='0:PPO, 1:A2C, 2:DQN', choices=[0,1,2], type=int, default=0)
     parser.add_argument('--learning_rate', help='Control the Learning rate', type=float, default=0.0003)
     parser.add_argument('--clip_range', help='Controls the clip parameter of PPO algorithm', type=float, default=0.2)
+
 
     # SEIR model hyperparameters
     parser.add_argument('--env_id', help='gym environment id ', default='gym_seir:seir-b-v0')
@@ -71,7 +73,7 @@ if __name__ == '__main__':
     states = random_states(args['N'])
     model = argparse_train_model(args)
     print("plotting")
-    df, actions = predict_actions(states, model, df=True)
+    # df, actions = predict_actions(states, model, df=True)
     # scatter_plot(df=df, save_fig=True, fig_name=args['summary_dir']+"scatter.jpg")
     # scatter_plot(df=df, save_fig=True, fig_name=args['summary_dir']+"scatter.pdf")
     if len(args['plot_inital_states'])==0:
@@ -80,7 +82,7 @@ if __name__ == '__main__':
         for init_state in args['plot_inital_states']:
             argparse_plot_trajectories(model,args, inital_state=init_state)
 
-    args_path = args['summary_dir']+'args.csv'
+    args_path = args['summary_dir'] + 'args.csv'
     HP = pd.DataFrame(list(args.items()),columns = ['hyperparameter','value'])
     HP.to_csv(args_path)
     # with open(args_path, 'w') as file:

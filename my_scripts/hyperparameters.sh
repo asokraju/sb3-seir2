@@ -1,5 +1,5 @@
 #!/bin/bash -l
-for test_name in test_aws
+for test_name in $1
 do
   for env_id in gym_seir:seir-b-v0
   do
@@ -9,19 +9,22 @@ do
       do
         for health_cost_scale in 581.0
         do
-          for rho_per_week in 0.0
+          for rho_per_week in 0.02
           do
             for hospital_beds_ratio in 0.00287
             do
               for max_hospital_cost in 10.0
               do
-                for seed in 2345 2355
+                for seed in 2345
                 do
-                  for learning_rate in 0.0003 0.0002 0.0001
+                  for learning_rate in 0.0003 
                   do
-                    for clip_range in 0.1 0.15 0.2
+                    for clip_range in 0.1
                     do
-                      C:/Users/kkris/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed $learning_rate $clip_range
+                      for policy in 2 1 0
+                      do
+                        C:/Users/kkris/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed $learning_rate $clip_range $policy
+                      done
                     done
                   done
                 done
