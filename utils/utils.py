@@ -208,16 +208,16 @@ def plot_trajectories(model, w:float, Senario:int, args:dict, log_dir:str, inita
     ax = df[['Susceptible', 'Exposed', 'Infected', 'Recovered']].plot.line(subplots=True, figsize = (10,10), title = main_title + 'state')
     for axes in ax:
         axes.set_ylim([0, 1e5])
-    plt.savefig(log_dir+main_title+"states.jpg")
+    plt.savefig(log_dir+main_title+"states.png")
     plt.close()
     
     ax = df['actions'].plot.line( figsize = (10,2.5), title = main_title + 'actions')
     ax.set_ylim([-0.1,2.2])
-    plt.savefig(log_dir+main_title+"actions.jpg")
+    plt.savefig(log_dir+main_title+"actions.png")
     plt.close()
 
     ax = df['rewards'].plot.line( figsize = (10,2.5), title = main_title + 'rewards')
-    plt.savefig(log_dir+main_title+"rewards.jpg")
+    plt.savefig(log_dir+main_title+"rewards.png")
     plt.close()
     df.to_csv(log_dir+'sar.csv')
     return df
@@ -293,16 +293,16 @@ def argparse_plot_trajectories(model, args:dict, inital_state):
     ax = df[['Susceptible', 'Exposed', 'Infected', 'Recovered']].plot.line(subplots=True, figsize = (10,10), title = main_title + 'state')
     for axes in ax:
         axes.set_ylim([0, 1e5])
-    plt.savefig(log_dir+main_title+"states.jpg")
+    plt.savefig(log_dir+main_title+"states.png")
     plt.close()
     
     ax = df['actions'].plot.line( figsize = (10,2.5), title = main_title + 'actions')
     ax.set_ylim([-0.1,2.2])
-    plt.savefig(log_dir+main_title+"actions.jpg")
+    plt.savefig(log_dir+main_title+"actions.png")
     plt.close()
 
     ax = df['rewards'].plot.line( figsize = (10,2.5), title = main_title + 'rewards')
-    plt.savefig(log_dir+main_title+"rewards.jpg")
+    plt.savefig(log_dir+main_title+"rewards.png")
     plt.close()
     df.to_csv(log_dir+'sar.csv')
     return df

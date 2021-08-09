@@ -65,4 +65,4 @@ cd $RL_ALGO_DIR
 
 export run_exec=$PARENT_DIR/argparse_run.py #python script that we want to run
 export run_flags="--env_id=${ENV_ID} --weight=${WEIGHT} --seed=${SEED} --Senario=${SENARIO} --health_cost_scale=${HCS} --rho_per_week=${RPW} --hospital_beds_ratio=${HBR} --max_hospital_cost=${MHC} --summary_dir=$PWD --learning_rate=${LR} --clip_range=${CLIP} --rl_algo=${RL_ALGO}"
-C:/Users/kkris/anaconda3/envs/test-aws2/python.exe $run_exec $run_flags
+C:/Users/guanxy/anaconda3/envs/RL_guan/python.exe $run_exec $run_flags
