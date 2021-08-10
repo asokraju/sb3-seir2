@@ -326,7 +326,7 @@ def argparse_train_model2(args:dict):
         }
     env = gym.make(env_id,**env_kwargs)
     env = Monitor(env, log_dir)
-    if args['policy'] == 0:
+    if args['rl_algo'] == 0:
         model = PPO(
             'MlpPolicy', 
             env, 
@@ -337,7 +337,7 @@ def argparse_train_model2(args:dict):
             learning_rate=args['learning_rate'],
             clip_range=args['clip_range']
             )
-    elif args['policy'] == 1:
+    elif args['rl_algo'] == 1:
         model = A2C(
             'MlpPolicy', 
             env, 
@@ -347,14 +347,14 @@ def argparse_train_model2(args:dict):
             policy_kwargs = args["policy_kwargs"],
             # learning_rate=args['learning_rate'],
             )
-    elif args['policy'] == 2:
+    elif args['rl_algo'] == 2:
         model = DQN(
             'MlpPolicy', 
             env, 
             verbose=0, 
             tensorboard_log=tensorboard_log, 
             seed = args['seed'],
-            policy_kwargs = args["policy_kwargs"],
+            # policy_kwargs = args["policy_kwargs"],
             # learning_rate=args['learning_rate'],
             )
  

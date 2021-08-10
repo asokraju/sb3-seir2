@@ -14,7 +14,7 @@ import yaml
 import pprint as pp
 
 #local modules
-from utils.utils import argparse_train_model, random_states, predict_actions, scatter_plot, CM, create_dir, argparse_plot_trajectories
+from utils.utils import argparse_train_model, random_states, predict_actions, scatter_plot, CM, create_dir, argparse_plot_trajectories, argparse_train_model2
 import torch as th
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
@@ -71,11 +71,12 @@ if __name__ == '__main__':
     # create_dir(args['summary_dir'])
 
     states = random_states(args['N'])
-    model = argparse_train_model(args)
+    model = argparse_train_model2(args)
     print("plotting")
     # df, actions = predict_actions(states, model, df=True)
     # scatter_plot(df=df, save_fig=True, fig_name=args['summary_dir']+"scatter.jpg")
     # scatter_plot(df=df, save_fig=True, fig_name=args['summary_dir']+"scatter.pdf")
+    args['theta'] = Theta[0]
     if len(args['plot_inital_states'])==0:
         argparse_plot_trajectories(model, args, inital_state=None)
     else:
