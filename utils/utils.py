@@ -257,7 +257,7 @@ def argparse_train_model(args:dict):
     print("Finished training")
     return model
 
-def argparse_plot_trajectories(model, args:dict, inital_state):
+def argparse_plot_trajectories(model, args:dict, inital_state, eval=True):
     env_id = args['env_id']
     env_kwargs = {
         'validation':True,
@@ -293,18 +293,23 @@ def argparse_plot_trajectories(model, args:dict, inital_state):
     ax = df[['Susceptible', 'Exposed', 'Infected', 'Recovered']].plot.line(subplots=True, figsize = (10,10), title = main_title + 'state')
     for axes in ax:
         axes.set_ylim([0, 1e5])
-    plt.savefig(log_dir+main_title+"states.png")
+    if eval == True:
+        EVAL = "EVAL-"
+    else:
+        EVAL = ""
+
+    plt.savefig(log_dir+main_title+EVAL+"states.png")
     plt.close()
     
     ax = df['actions'].plot.line( figsize = (10,2.5), title = main_title + 'actions')
     ax.set_ylim([-0.1,2.2])
-    plt.savefig(log_dir+main_title+"actions.png")
+    plt.savefig(log_dir+main_title+EVAL+"actions.png")
     plt.close()
 
     ax = df['rewards'].plot.line( figsize = (10,2.5), title = main_title + 'rewards')
-    plt.savefig(log_dir+main_title+"rewards.png")
+    plt.savefig(log_dir+main_title+EVAL+"rewards.png")
     plt.close()
-    df.to_csv(log_dir+'sar.csv')
+    df.to_csv(log_dir+EVAL+'sar.csv')
     return df
 
 
@@ -354,7 +359,7 @@ def argparse_train_model2(args:dict):
             verbose=0, 
             tensorboard_log=tensorboard_log, 
             seed = args['seed'],
-            # policy_kwargs = args["policy_kwargs"],
+            policy_kwargs = args["policy_kwargs"],
             # learning_rate=args['learning_rate'],
             )
  

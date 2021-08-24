@@ -31,19 +31,19 @@ config_path = "config.yml"
 if __name__ == '__main__':
     start_time = datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
     directory = "results/" + start_time + '/'
-    Theta = {0: 113.92, 1: 87.15, 2: 107.97}
+    Theta = {0: 113.92, 1: 87.15, 2: 107.97, 3: 113.67, 4: 113.58, 5: 95.68}
     parser = argparse.ArgumentParser(description='provide arguments finding optimal policy of the SEIR model')
 
     # general parameters
     parser.add_argument('--summary_dir', help='directory for saving and loading model and other data', default=directory)
-    parser.add_argument('--Senario', help='Scenarios that needs to run', choices=[0,1,2], type=int, default=0)
+    parser.add_argument('--Senario', help='Scenarios that needs to run', choices=[0,1,2,3,4,5], type=int, default=0)
     parser.add_argument('--seed', help='seed for random number generator', type=int, default=2222)
 
     # RL agent hyperparameters
     parser.add_argument('--n_timesteps', help='Total number of training steps for training', type = int, default=int(1e5))
     parser.add_argument('--check_freq', help='frequency of upating the model ', type = int, default=1000)
     parser.add_argument('--policy_kwargs', help='policy kwargs for the agent NN model', type=json.loads, default=dict(activation_fn=th.nn.ReLU, net_arch=[128, dict(pi=[512, 512], vf=[512, 512])]))
-    parser.add_argument('--rl_algo', help='0:PPO, 1:A2C, 2:DQN', choices=[0,1,2], type=int, default=0)
+    parser.add_argument('--rl_algo', help='0:PPO, 1:A2C, 2:DQN', choices=[0,1,2], type=int, default=2)
     parser.add_argument('--learning_rate', help='Control the Learning rate', type=float, default=0.0003)
     parser.add_argument('--clip_range', help='Controls the clip parameter of PPO algorithm', type=float, default=0.2)
 
@@ -63,7 +63,9 @@ if __name__ == '__main__':
     parser.add_argument('--plot_inital_states', help='Initial states for plotting', type = json.loads, default=[[99666., 81., 138., 115.]])
 
     args = vars(parser.parse_args())
-    args['theta'] = Theta[args["Senario"]] if args['theta'] == None else None
+    args['theta'] = Theta[args["Senario"]] if args['theta'] == None else args['theta']
+    # if args['theta']==0 or args['theta']==None:
+    #     args['theta'] = Theta[args["Senario"]]
     pp.pprint(args)
 
     np.random.seed(args['seed'])
@@ -76,6 +78,17 @@ if __name__ == '__main__':
     # df, actions = predict_actions(states, model, df=True)
     # scatter_plot(df=df, save_fig=True, fig_name=args['summary_dir']+"scatter.jpg")
     # scatter_plot(df=df, save_fig=True, fig_name=args['summary_dir']+"scatter.pdf")
+
+    # for plotting we always plot learned model on baseline scenario,
+    # so setting theta to the baseline scenario - value
+    if len(args['plot_inital_states'])==0:
+        argparse_plot_trajectories(model, args, inital_state=None, eval=False)
+    else:
+        for init_state in args['plot_inital_states']:
+            argparse_plot_trajectories(model,args, inital_state=init_state, eval=False)
+
+    # for plotting we always plot learned model on baseline scenario,
+    # so setting theta to the baseline scenario - value
     args['theta'] = Theta[0]
     if len(args['plot_inital_states'])==0:
         argparse_plot_trajectories(model, args, inital_state=None)
