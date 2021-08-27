@@ -30,7 +30,7 @@ typeset -i variable=$(cat 'Bindex1.txt')
 echo $variable
 current=0
 
-for test_name in test_yang_5_test
+for test_name in test_yang_6_test_1
 do
   for env_id in gym_seir:seir-b-v0
   do
@@ -44,13 +44,13 @@ do
           do
             for hospital_beds_ratio in 0.005 #0.010
             do
-              for max_hospital_cost in 5.0 #10.0
+              for max_hospital_cost in 10.0 #5.0
               do
-                for seed in 2345 #2901
+                for seed in 2901 2345
                 do
-                  for learning_rate in 0.0003 0.0002
+                  for learning_rate in 0.0003 #0.0002
                   do
-                    for clip_range in 0.10 0.01
+                    for clip_range in 0.10 #0.01
                     do
                       for rl_algo in 0
                       do

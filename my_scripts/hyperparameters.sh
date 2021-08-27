@@ -1,5 +1,5 @@
 #!/bin/bash -l
-for test_name in test_yang_5
+for test_name in test_yang_5_test
 do
   for env_id in gym_seir:seir-b-v0
   do
@@ -11,17 +11,17 @@ do
         do
           for rho_per_week in 0.02
           do
-            for hospital_beds_ratio in 0.00287 #0.005 0.01
+            for hospital_beds_ratio in 0.005 #0.010 #0.00287
             do
-              for max_hospital_cost in 5.0 10.0
+              for max_hospital_cost in 10.0 #5.0 
               do
                 for seed in 2901 2345 
                 do
-                  for learning_rate in 0.0002 0.0003
+                  for learning_rate in 0.0003 #0.0002 
                   do
-                    for clip_range in 0.1
+                    for clip_range in 0.10 #0.01
                     do
-                      for rl_algo in 0 1 
+                      for rl_algo in 0 
                       do
                         C:/Users/guanxy/Documents/GitHub/sb3-seir2/my_scripts/batch.sh $test_name $env_id $weight $Senario $health_cost_scale $rho_per_week $hospital_beds_ratio $max_hospital_cost $seed $learning_rate $clip_range $rl_algo
                       done

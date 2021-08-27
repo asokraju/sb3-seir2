@@ -13,7 +13,11 @@ from stable_baselines3.common.monitor import Monitor
 from stable_baselines3 import PPO, A2C, DQN
 from sklearn.metrics import confusion_matrix
 
-
+from typing import Callable
+from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
+from stable_baselines3.common.utils import set_random_seed
+from stable_baselines3.common.evaluation import evaluate_policy
+from stable_baselines3.common.env_util import make_vec_env
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 
@@ -224,7 +228,7 @@ def plot_trajectories(model, w:float, Senario:int, args:dict, log_dir:str, inita
 
 
 
-
+# C:\Users\kkris\Documents\GitHub\sb3-seir2\results\21-08-24-11-34\board\test_1_1
 def argparse_train_model(args:dict):
     env_id = args['env_id']
     n_timesteps = args['n_timesteps']
@@ -242,6 +246,58 @@ def argparse_train_model(args:dict):
         }
     env = gym.make(env_id,**env_kwargs)
     env = Monitor(env, log_dir)
+    model = PPO(
+        'MlpPolicy', 
+        env, 
+        verbose=0, 
+        tensorboard_log=tensorboard_log, 
+        seed = args['seed'],
+        policy_kwargs = args["policy_kwargs"],
+        learning_rate=args['learning_rate'],
+        clip_range=args['clip_range']
+        )
+    callback = SaveOnBestTrainingRewardCallback(check_freq=check_freq, log_dir=log_dir)
+    model.learn(n_timesteps, tb_log_name="test_1", callback=callback)
+    print("Finished training")
+    return model
+
+def make_env(args: dict, rank: int) -> Callable:
+    """
+    Utility function for multiprocessed env.
+    
+    :param env_id: (str) the environment ID
+    :param num_env: (int) the number of environment you wish to have in subprocesses
+    :param seed: (int) the inital seed for RNG
+    :param rank: (int) index of the subprocess
+    :return: (Callable)
+    """
+    env_id = args['env_id']
+    seed = args['seed']
+    env_kwargs = {
+        'validation':False,
+        'theta':args['theta'],
+        'weight' : args['weight'],
+        'health_cost_scale' : args['health_cost_scale'],
+        'rho_per_week': args['rho_per_week'],
+        'hospital_beds_ratio': args['hospital_beds_ratio'],
+        'max_hospital_cost':args['max_hospital_cost']
+        }
+    def _init() -> gym.Env:
+        env = gym.make(env_id,**env_kwargs)
+        env.seed(seed + rank)
+        return env
+    set_random_seed(seed)
+    return _init
+
+def argparse_train_model_mpi(args:dict):
+    env_id = args['env_id']
+    n_timesteps = args['n_timesteps']
+    check_freq = args['check_freq']
+    tensorboard_log = args['summary_dir'] + "board/"
+    log_dir = args['summary_dir']
+    num_cpu = args['num_cpu']
+    env = SubprocVecEnv([(make_env(args, i),  log_dir)for i in range(num_cpu)])
+    # env = Monitor(env, log_dir)
     model = PPO(
         'MlpPolicy', 
         env, 
@@ -367,3 +423,230 @@ def argparse_train_model2(args:dict):
     model.learn(n_timesteps, tb_log_name="test_1", callback=callback)
     print("Finished training")
     return model
+
+def argparse_train_model2_mpi(args:dict):
+    env_id = args['env_id']
+    n_timesteps = args['n_timesteps']
+    check_freq = args['check_freq']
+    tensorboard_log = args['summary_dir'] + "board/"
+    log_dir = args['summary_dir']
+    num_cpu = args['num_cpu']
+    env = SubprocVecEnv([make_env(args, i) for i in range(num_cpu)])
+    # env = Monitor(env, log_dir)
+    # model = PPO(
+    #     'MlpPolicy', 
+    #     env, 
+    #     verbose=0, 
+    #     tensorboard_log=tensorboard_log, 
+    #     seed = args['seed'],
+    #     policy_kwargs = args["policy_kwargs"],
+    #     learning_rate=args['learning_rate'],
+    #     clip_range=args['clip_range']
+    #     )
+    # env = Monitor(env, log_dir)
+    if args['rl_algo'] == 0:
+        model = PPO(
+            'MlpPolicy', 
+            env, 
+            verbose=0, 
+            tensorboard_log=tensorboard_log, 
+            seed = args['seed'],
+            policy_kwargs = args["policy_kwargs"],
+            learning_rate=args['learning_rate'],
+            clip_range=args['clip_range']
+            )
+    elif args['rl_algo'] == 1:
+        model = A2C(
+            'MlpPolicy', 
+            env, 
+            verbose=0, 
+            tensorboard_log=tensorboard_log, 
+            seed = args['seed'],
+            policy_kwargs = args["policy_kwargs"],
+            # learning_rate=args['learning_rate'],
+            )
+    elif args['rl_algo'] == 2:
+        model = DQN(
+            'MlpPolicy', 
+            env, 
+            verbose=0, 
+            tensorboard_log=tensorboard_log, 
+            seed = args['seed'],
+            policy_kwargs = args["policy_kwargs"],
+            # learning_rate=args['learning_rate'],
+            )
+ 
+    callback = SaveOnBestTrainingRewardCallback(check_freq=check_freq, log_dir=log_dir)
+    model.learn(n_timesteps, tb_log_name="test_1")
+    print("Finished training")
+    return model
+
+
+
+def plot_path(path, eval=None):
+    if eval == True:
+        EVAL = "EVAL-"
+    else:
+        EVAL = ""
+    idx = path.find("mhc=")
+    mhc = float(path[idx+4:idx+7])
+    idx = path.find("hbr=")
+    hbr = float(path[idx+4:idx+9])
+    idx = path.find("hcs=")
+    hcs = float(path[idx+4:idx+9])
+    idx = path.find("hcs=")
+    scenario = path[idx-2:idx-1]
+    # print(mhc, hbr, hcs, scenario)
+    Scenarios = [ 'BaseLine', 'Senario_1', 'Senario_2']
+    states = ['Susceptible', 'Exposed', 'Infected', 'Recovered']
+    a_map = {0:'LockDown', 1:'Social Distancing', 2:'Open'}
+    cols = []
+    df_0 = pd.read_csv(path + "\\"+EVAL+"sar.csv",  index_col=0, infer_datetime_format=True)
+    # print(df_0.iloc[0])
+    df_0.index = pd.to_datetime(df_0.index)
+    eco_costs    = np.array([1., 0.2, 0.0], dtype=float)
+    df_0['EconomicCost'] = df_0['actions'].map(lambda x: eco_costs[x])*7.
+    def Bed_cost(x):
+        avail_hospital_beds = 0.005*1e5
+        return 0. if x < avail_hospital_beds else mhc
+    df_0['bedcost'] = df_0['Infected'].map(lambda x: Bed_cost(x))
+    df_0.head()
+    Susceptible = df_0['Susceptible'].values
+    dt           = 5/(24*60)
+    Ts           = 7
+    time_steps   = int((Ts) / dt)
+    def ds_cost(Susceptible):
+        ds = []
+        l            = np.shape(Susceptible)[0]
+        weakly_sus = Susceptible[::time_steps]
+        # print(len(weakly_sus))
+        for i in range(24):
+            for _ in range(time_steps):
+                ds.append(weakly_sus[i]-weakly_sus[i+1])
+        for _ in range(time_steps):
+            ds.append(weakly_sus[i]-weakly_sus[i+1])
+        return ds
+    df_0['Ds_cost'] = np.array(ds_cost(Susceptible))/hcs
+    df_0['PublicHealthCost'] = df_0['bedcost'] + df_0['Ds_cost']
+    df_0['TotalCost'] = (1-0.5)*df_0['PublicHealthCost'] + (0.5)*df_0['EconomicCost']
+    TotalCost = df_0['TotalCost'].values
+    TotalWeeklyCosts = TotalCost[::time_steps]
+    TotalWeeklyCumulativeCosts = discount_reward(TotalWeeklyCosts, GAMMA=0.99)
+    TotalDialyCumulativeCosts = []
+    for _ in TotalWeeklyCumulativeCosts:
+        for t in range(time_steps):
+            TotalDialyCumulativeCosts.append(_)
+    df_0['CumulativeCost'] = TotalDialyCumulativeCosts
+    index = pd.date_range("2020-05-15 00:00:00", "2020-11-05 23:55:00", freq="5min")
+    main_title = "weight = " + str(0.5) + ", "
+    ax = df_0[['Susceptible', 'Exposed', 'Infected', 'Recovered', 'actions']].plot.line(subplots=True, figsize = (5,5))
+    ax[0].set_ylim([94000, 100000])
+    ax[1].set_ylim([0, 500])
+    ax[2].set_ylim([0, 1500])
+    ax[2].axhline(y=hbr*1e5)
+    ax[3].set_ylim([0, 5000])
+    ax[4].set_ylim([-0.1, 2.1])
+    plt.savefig(path + main_title+"Scenario - " + scenario + " - states.png")
+    # plt.show()
+    plt.close()
+
+    index = pd.date_range("2020-05-15 00:00:00", "2020-11-05 23:55:00", freq="5min")
+    main_title = "weight = " + str(0.5) + ", "
+    ax = df_0[['PublicHealthCost', 'EconomicCost', 'TotalCost', 'CumulativeCost']].plot.line(subplots=True, figsize = (5,5))
+    # ax[0].set_ylim([94000, 100000])
+    # ax[1].set_ylim([0, 500])
+    ax[2].set_ylim([-0.1, 7.5])
+    # ax[3].set_ylim([-0.1, 2.1])
+    plt.savefig(path + main_title+"Scenario - " + scenario + " - costs.png")
+    # plt.show()
+    plt.close()
+    return TotalWeeklyCumulativeCosts[0]
+
+
+def discount_reward(rewards, GAMMA=0.99):
+    reward_sum = 0
+    discounted_rewards = []
+    for reward in rewards[::-1]:  # reverse buffer r
+        reward_sum = reward + GAMMA * reward_sum
+        discounted_rewards.append(reward_sum)
+    discounted_rewards.reverse()
+    # discounted_rewards = np.array(discounted_rewards)
+    # len = discounted_rewards.shape[0]
+    return discounted_rewards
+
+def plot_args(args, eval=None):
+    if eval == True:
+        EVAL = "EVAL-"
+    else:
+        EVAL = ""
+    print(args['max_hospital_cost'])
+    mhc = float(args['max_hospital_cost'])
+    hbr = float(args['hospital_beds_ratio'])
+    hcs = float(args['health_cost_scale'])
+    scenario = int(args['Senario'])
+    path =args['summary_dir']
+    # print(mhc, hbr, hcs, scenario)
+    Scenarios = [ 'BaseLine', 'Senario_1', 'Senario_2']
+    states = ['Susceptible', 'Exposed', 'Infected', 'Recovered']
+    a_map = {0:'LockDown', 1:'Social Distancing', 2:'Open'}
+    cols = []
+    df_0 = pd.read_csv(path +EVAL+"sar.csv",  index_col=0, infer_datetime_format=True)
+    # print(df_0.iloc[0])
+    df_0.index = pd.to_datetime(df_0.index)
+    eco_costs    = np.array([1., 0.2, 0.0], dtype=float)
+    df_0['EconomicCost'] = df_0['actions'].map(lambda x: eco_costs[x])*7.
+    def Bed_cost(x):
+        avail_hospital_beds = hbr*1e5
+        return 0. if x < avail_hospital_beds else mhc
+    df_0['bedcost'] = df_0['Infected'].map(lambda x: Bed_cost(x))
+    df_0.head()
+    Susceptible = df_0['Susceptible'].values
+    dt           = 5/(24*60)
+    Ts           = 7
+    time_steps   = int((Ts) / dt)
+    def ds_cost(Susceptible):
+        ds = []
+        l            = np.shape(Susceptible)[0]
+        weakly_sus = Susceptible[::time_steps]
+        # print(len(weakly_sus))
+        for i in range(24):
+            for _ in range(time_steps):
+                ds.append(weakly_sus[i]-weakly_sus[i+1])
+        for _ in range(time_steps):
+            ds.append(weakly_sus[i]-weakly_sus[i+1])
+        return ds
+    df_0['Ds_cost'] = np.array(ds_cost(Susceptible))/hcs
+    df_0['PublicHealthCost'] = df_0['bedcost'] + df_0['Ds_cost']
+    df_0['TotalCost'] = (1-0.5)*df_0['PublicHealthCost'] + (0.5)*df_0['EconomicCost']
+    TotalCost = df_0['TotalCost'].values
+    TotalWeeklyCosts = TotalCost[::time_steps]
+    TotalWeeklyCumulativeCosts = discount_reward(TotalWeeklyCosts, GAMMA=0.99)
+    TotalDialyCumulativeCosts = []
+    for _ in TotalWeeklyCumulativeCosts:
+        for t in range(time_steps):
+            TotalDialyCumulativeCosts.append(_)
+    df_0['CumulativeCost'] = TotalDialyCumulativeCosts
+    index = pd.date_range("2020-05-15 00:00:00", "2020-11-05 23:55:00", freq="5min")
+    main_title = "weight = " + str(0.5) + ", "
+    ax = df_0[['Susceptible', 'Exposed', 'Infected', 'Recovered', 'actions']].plot.line(subplots=True, figsize = (5,5))
+    ax[0].set_ylim([94000, 100000])
+    ax[1].set_ylim([0, 500])
+    ax[2].set_ylim([0, 1500])
+    ax[2].axhline(y=hbr*1e5)
+    ax[3].set_ylim([0, 5000])
+    ax[4].set_ylim([-0.1, 2.1])
+    plt.savefig(path + main_title+"Scenario - " + str(scenario) + " - states.png")
+    # plt.show()
+    plt.close()
+
+    index = pd.date_range("2020-05-15 00:00:00", "2020-11-05 23:55:00", freq="5min")
+    main_title = "weight = " + str(0.5) + ", "
+    ax = df_0[['PublicHealthCost', 'EconomicCost', 'TotalCost', 'CumulativeCost']].plot.line(subplots=True, figsize = (5,5))
+    # ax[0].set_ylim([94000, 100000])
+    # ax[1].set_ylim([0, 500])
+    ax[2].set_ylim([-0.1, 7.5])
+    # ax[3].set_ylim([-0.1, 2.1])
+    plt.savefig(path + main_title+"Scenario - " + str(scenario) + " - costs.png")
+    # plt.show()
+    plt.close()
+    return TotalWeeklyCumulativeCosts[0]
